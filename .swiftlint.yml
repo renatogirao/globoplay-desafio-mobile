@@ -1,0 +1,25 @@
+disabled_rules:
+  - valid_docs
+  - empty_count
+  - implicit_return
+
+opt_in_rules:
+  - todo
+
+severity:
+  file_length: warning
+  cyclomatic_complexity: error
+
+line_length:
+  warning: 120
+  error: 140
+
+included:
+  - App
+  - Shared
+  - Features
+
+excluded:
+  - Pods
+  - Carthage
+  - build

@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		604AE9362D49745700B13B21 /* TabBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AE9352D49745700B13B21 /* TabBarManager.swift */; };
+		604AE93B2D49749500B13B21 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AE93A2D49749500B13B21 /* FavoritesView.swift */; };
+		604AE93D2D4974ED00B13B21 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AE93C2D4974ED00B13B21 /* MainTabView.swift */; };
+		604AE93F2D49757300B13B21 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AE93E2D49757300B13B21 /* HomeViewModel.swift */; };
+		604AE9412D49762500B13B21 /* Movie+PosterURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AE9402D49762500B13B21 /* Movie+PosterURL.swift */; };
+		604AE9432D49765500B13B21 /* MovieSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AE9422D49765500B13B21 /* MovieSection.swift */; };
+		604AE9462D497A4400B13B21 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AE9452D497A4400B13B21 /* Person.swift */; };
+		604AE9482D497A5700B13B21 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AE9472D497A5700B13B21 /* Genre.swift */; };
+		604AE9512D497CE900B13B21 /* MovieDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AE9502D497CE900B13B21 /* MovieDetails.swift */; };
 		60FEE9382D4959B100DC1418 /* globoplay_desafio_mobileApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FEE9372D4959B100DC1418 /* globoplay_desafio_mobileApp.swift */; };
 		60FEE93A2D4959B100DC1418 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FEE9392D4959B100DC1418 /* HomeView.swift */; };
 		60FEE93C2D4959B200DC1418 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60FEE93B2D4959B200DC1418 /* Assets.xcassets */; };
@@ -42,6 +51,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		604AE9352D49745700B13B21 /* TabBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarManager.swift; sourceTree = "<group>"; };
+		604AE93A2D49749500B13B21 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
+		604AE93C2D4974ED00B13B21 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		604AE93E2D49757300B13B21 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		604AE9402D49762500B13B21 /* Movie+PosterURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Movie+PosterURL.swift"; sourceTree = "<group>"; };
+		604AE9422D49765500B13B21 /* MovieSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSection.swift; sourceTree = "<group>"; };
+		604AE9452D497A4400B13B21 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
+		604AE9472D497A5700B13B21 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
+		604AE9502D497CE900B13B21 /* MovieDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetails.swift; sourceTree = "<group>"; };
 		60FEE9342D4959B100DC1418 /* globoplay-desafio-mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "globoplay-desafio-mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		60FEE9372D4959B100DC1418 /* globoplay_desafio_mobileApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = globoplay_desafio_mobileApp.swift; sourceTree = "<group>"; };
 		60FEE9392D4959B100DC1418 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -87,6 +105,50 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		604AE9372D49747E00B13B21 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		604AE9382D49748400B13B21 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				604AE93A2D49749500B13B21 /* FavoritesView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		604AE9392D49748900B13B21 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		604AE94D2D497CD000B13B21 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		604AE94E2D497CD900B13B21 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		604AE94F2D497CDD00B13B21 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				604AE9502D497CE900B13B21 /* MovieDetails.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		60FEE92B2D4959B100DC1418 = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +209,7 @@
 		60FEE9672D495B7000DC1418 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				60FEE93B2D4959B200DC1418 /* Assets.xcassets */,
 				60FEE93E2D4959B200DC1418 /* Preview Assets.xcassets */,
 				60FEE9372D4959B100DC1418 /* globoplay_desafio_mobileApp.swift */,
 				60FEE9422D4959B200DC1418 /* globoplay_desafio_mobile.xcdatamodeld */,
@@ -158,7 +221,7 @@
 		60FEE9682D495B7500DC1418 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				60FEE93B2D4959B200DC1418 /* Assets.xcassets */,
+				60FEE9832D4973F700DC1418 /* TabBar */,
 				60FEE96B2D495BD200DC1418 /* Extensions */,
 				60FEE96A2D495BC700DC1418 /* Models */,
 				60FEE9692D495BBE00DC1418 /* Networking */,
@@ -187,6 +250,7 @@
 		60FEE96B2D495BD200DC1418 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				604AE9402D49762500B13B21 /* Movie+PosterURL.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -194,7 +258,9 @@
 		60FEE96C2D495BE500DC1418 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				60FEE9392D4959B100DC1418 /* HomeView.swift */,
+				60FEE9802D49732100DC1418 /* Model */,
+				60FEE9812D49732900DC1418 /* View */,
+				60FEE9822D49733000DC1418 /* ViewModel */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -202,6 +268,9 @@
 		60FEE96D2D495BED00DC1418 /* Movie Details */ = {
 			isa = PBXGroup;
 			children = (
+				604AE94F2D497CDD00B13B21 /* Model */,
+				604AE94E2D497CD900B13B21 /* View */,
+				604AE94D2D497CD000B13B21 /* ViewModel */,
 			);
 			path = "Movie Details";
 			sourceTree = "<group>";
@@ -209,8 +278,46 @@
 		60FEE96E2D495BF900DC1418 /* Favorites */ = {
 			isa = PBXGroup;
 			children = (
+				604AE9392D49748900B13B21 /* Model */,
+				604AE9382D49748400B13B21 /* View */,
+				604AE9372D49747E00B13B21 /* ViewModel */,
 			);
 			path = Favorites;
+			sourceTree = "<group>";
+		};
+		60FEE9802D49732100DC1418 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				604AE9422D49765500B13B21 /* MovieSection.swift */,
+				604AE9452D497A4400B13B21 /* Person.swift */,
+				604AE9472D497A5700B13B21 /* Genre.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		60FEE9812D49732900DC1418 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				60FEE9392D4959B100DC1418 /* HomeView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		60FEE9822D49733000DC1418 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				604AE93E2D49757300B13B21 /* HomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		60FEE9832D4973F700DC1418 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				604AE9352D49745700B13B21 /* TabBarManager.swift */,
+				604AE93C2D4974ED00B13B21 /* MainTabView.swift */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -372,12 +479,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				604AE9462D497A4400B13B21 /* Person.swift in Sources */,
+				604AE9512D497CE900B13B21 /* MovieDetails.swift in Sources */,
+				604AE93B2D49749500B13B21 /* FavoritesView.swift in Sources */,
 				60FEE9412D4959B200DC1418 /* Persistence.swift in Sources */,
+				604AE9412D49762500B13B21 /* Movie+PosterURL.swift in Sources */,
 				60FEE9772D4961BF00DC1418 /* APIEndpoint.swift in Sources */,
 				60FEE93A2D4959B100DC1418 /* HomeView.swift in Sources */,
 				60FEE9752D49610E00DC1418 /* Movie.swift in Sources */,
+				604AE9482D497A5700B13B21 /* Genre.swift in Sources */,
+				604AE9432D49765500B13B21 /* MovieSection.swift in Sources */,
+				604AE93D2D4974ED00B13B21 /* MainTabView.swift in Sources */,
 				60FEE9382D4959B100DC1418 /* globoplay_desafio_mobileApp.swift in Sources */,
+				604AE93F2D49757300B13B21 /* HomeViewModel.swift in Sources */,
 				60FEE9732D4960EA00DC1418 /* NetworkingManager.swift in Sources */,
+				604AE9362D49745700B13B21 /* TabBarManager.swift in Sources */,
 				60FEE9442D4959B200DC1418 /* globoplay_desafio_mobile.xcdatamodeld in Sources */,
 				60FEE97F2D496DFF00DC1418 /* KeychainManager.swift in Sources */,
 			);

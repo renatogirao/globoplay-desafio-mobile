@@ -8,11 +8,16 @@
 import Foundation
 
 enum APIEndpoint: String {
-    case home = "/movie/popular"
     case movieDetail = "/movie/"
     case search = "/search/movie"
-    
-    var urlString: String {
-        return "https://api.themoviedb.org/3\(self.rawValue)"
-    }
+    case nowPlaying = "/movie/now_playing"
+    case popular = "/movie/popular"
+    case topRated = "/movie/top_rated"
+    case upcoming = "/movie/upcoming"
+    case genres = "/genre/movie/list"
+    case trendingPeople = "/trending/person/week"
+        
+        var urlString: String {
+            return "https://api.themoviedb.org/3\(self.rawValue)"
+        }
 }

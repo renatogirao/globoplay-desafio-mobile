@@ -21,6 +21,7 @@
 		60FEE9752D49610E00DC1418 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FEE9742D49610E00DC1418 /* Movie.swift */; };
 		60FEE9772D4961BF00DC1418 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FEE9762D4961BF00DC1418 /* APIEndpoint.swift */; };
 		60FEE97B2D49657500DC1418 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 60FEE97A2D49657500DC1418 /* KeychainSwift */; };
+		60FEE97F2D496DFF00DC1418 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FEE97E2D496DFF00DC1418 /* KeychainManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		60FEE9722D4960EA00DC1418 /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		60FEE9742D49610E00DC1418 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		60FEE9762D4961BF00DC1418 /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
+		60FEE97E2D496DFF00DC1418 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 			children = (
 				60FEE9722D4960EA00DC1418 /* NetworkingManager.swift */,
 				60FEE9762D4961BF00DC1418 /* APIEndpoint.swift */,
+				60FEE97E2D496DFF00DC1418 /* KeychainManager.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				60FEE9382D4959B100DC1418 /* globoplay_desafio_mobileApp.swift in Sources */,
 				60FEE9732D4960EA00DC1418 /* NetworkingManager.swift in Sources */,
 				60FEE9442D4959B200DC1418 /* globoplay_desafio_mobile.xcdatamodeld in Sources */,
+				60FEE97F2D496DFF00DC1418 /* KeychainManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,6 +16,7 @@
 		60FEE94E2D4959B200DC1418 /* globoplay_desafio_mobileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FEE94D2D4959B200DC1418 /* globoplay_desafio_mobileTests.swift */; };
 		60FEE9582D4959B200DC1418 /* globoplay_desafio_mobileUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FEE9572D4959B200DC1418 /* globoplay_desafio_mobileUITests.swift */; };
 		60FEE95A2D4959B200DC1418 /* globoplay_desafio_mobileUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FEE9592D4959B200DC1418 /* globoplay_desafio_mobileUITestsLaunchTests.swift */; };
+		60FEE9712D495DE300DC1418 /* swiftlint in Frameworks */ = {isa = PBXBuildFile; productRef = 60FEE9702D495DE300DC1418 /* swiftlint */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60FEE9712D495DE300DC1418 /* swiftlint in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +215,9 @@
 			dependencies = (
 			);
 			name = "globoplay-desafio-mobile";
+			packageProductDependencies = (
+				60FEE9702D495DE300DC1418 /* swiftlint */,
+			);
 			productName = "globoplay-desafio-mobile";
 			productReference = 60FEE9342D4959B100DC1418 /* globoplay-desafio-mobile.app */;
 			productType = "com.apple.product-type.application";
@@ -285,6 +290,9 @@
 				Base,
 			);
 			mainGroup = 60FEE92B2D4959B100DC1418;
+			packageReferences = (
+				60FEE96F2D495DE300DC1418 /* XCRemoteSwiftPackageReference "SwiftLint" */,
+			);
 			productRefGroup = 60FEE9352D4959B100DC1418 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -417,7 +425,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -471,7 +479,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -548,7 +556,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KXUSNVLP69;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "rgirao.globoplay-desafio-mobileTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -568,7 +576,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KXUSNVLP69;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "rgirao.globoplay-desafio-mobileTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -655,6 +663,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		60FEE96F2D495DE300DC1418 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		60FEE9702D495DE300DC1418 /* swiftlint */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 60FEE96F2D495DE300DC1418 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = swiftlint;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		60FEE9422D4959B200DC1418 /* globoplay_desafio_mobile.xcdatamodeld */ = {

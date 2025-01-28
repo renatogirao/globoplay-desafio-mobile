@@ -1,0 +1,17 @@
+.DS_Store
+*.xcuserstate
+*.xcworkspace
+*.xcodeproj
+*.idea/
+*.vscode/
+
+.swiftpm/
+Packages/
+
+
+*.moved-aside
+*.hmap
+
+
+build/
+DerivedData/

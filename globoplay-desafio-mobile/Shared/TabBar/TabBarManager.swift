@@ -10,10 +10,16 @@ import Foundation
 
 class TabBarManager: ObservableObject {
     @Published var tabs: [TabItem] = [
-        TabItem(title: "Início", icon: "house", view: AnyView(HomeView())),
+        TabItem(title: "Início", icon: "house", view: AnyView(HomeView(viewModel: HomeViewModel()))),
         TabItem(title: "Favoritos", icon: "star", view: AnyView(FavoritesView()))
     ]
     
+    init() {
+        UITabBar.appearance().barTintColor = UIColor(Color.appBackground)
+        UITabBar.appearance().tintColor = UIColor(Color.textColor)
+        UITabBar.appearance().unselectedItemTintColor = UIColor.gray
+    }
+
     func addTab(title: String, icon: String, view: AnyView) {
         tabs.append(TabItem(title: title, icon: icon, view: view))
     }
@@ -24,3 +30,4 @@ struct TabItem {
     let icon: String
     let view: AnyView
 }
+

@@ -11,17 +11,29 @@ import SwiftUI
 struct globoplay_desafio_mobileApp: App {
     
     let persistenceController = PersistenceController.shared
-
+    @StateObject private var homeViewModel = HomeViewModel()
+    
+    init() {
+        configureKeychain()
+        UINavigationBar.appearance().backgroundColor = UIColor(Color.navigationBarBackground)
+        UINavigationBar.appearance().largeTitleTextAttributes = [
+            .foregroundColor: UIColor(Color.textColor)
+        ]
+        UINavigationBar.appearance().titleTextAttributes = [
+            .foregroundColor: UIColor(Color.textColor)
+        ]
+    }
+    
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            HomeView(viewModel: homeViewModel)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
     
     private func configureKeychain() {
-            let keychainManager = KeychainManager()
+        let keychainManager = KeychainManager()
         keychainManager.saveAPIKey(apiKey: "d830c306bbead007f72d9ad843bc6985")
         keychainManager.saveToken(token: "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkODMwYzMwNmJiZWFkMDA3ZjcyZDlhZDg0M2JjNjk4NSIsIm5iZiI6MTY3MDg4MDg2MS42MTYsInN1YiI6IjYzOTc5ZTVkNzliM2Q0MDA4YWRjNzBlNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.K4CkRCoO1rBwDfJrHszE1wFD-BQC2G6UUTTjqLzAle0")
-        }
+    }
 }

@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @StateObject private var tabBarManager = TabBarManager()
-    
+    @ObservedObject var tabBarManager = TabBarManager()
+
     var body: some View {
         TabView {
             ForEach(tabBarManager.tabs, id: \.title) { tab in
                 tab.view
                     .tabItem {
-                        Label(tab.title, systemImage: tab.icon)
+                        Image(systemName: tab.icon)
+                        Text(tab.title)
                     }
             }
         }
-        .onAppear {
-        }
+        .accentColor(.textColor)
     }
 }
 

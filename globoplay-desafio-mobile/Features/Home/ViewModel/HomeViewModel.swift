@@ -16,94 +16,81 @@ class HomeViewModel: ObservableObject {
     @Published var popularMovies: [Movie] = []
     @Published var topRatedMovies: [Movie] = []
     @Published var upcomingMovies: [Movie] = []
-    @Published var movieGenres: [Genre] = []
-    @Published var actorsAndActresses: [Person] = []
     @Published var isLoading = false
     @Published var errorMessage: String? = nil
     
-    func fetchNowPlaying() {
-        isLoading = true
-        networkingManager.getData(from: .nowPlaying, type: [Movie].self)
-            .sink(receiveCompletion: { [weak self] completion in
-                self?.isLoading = false
-                if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
-                }
-            }, receiveValue: { [weak self] movies in
-                self?.nowPlayingMovies = movies
-            })
-            .store(in: &cancellables)
+    var sections: [Section] {
+        return [
+            Section(title: "Now Playing", items: nowPlayingMovies),
+            Section(title: "Popular", items: popularMovies),
+            Section(title: "Top Rated", items: topRatedMovies),
+            Section(title: "Upcoming", items: upcomingMovies)
+        ]
     }
-
-    func fetchPopular() {
-        isLoading = true
-        networkingManager.getData(from: .popular, type: [Movie].self)
-            .sink(receiveCompletion: { [weak self] completion in
-                self?.isLoading = false
-                if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
-                }
-            }, receiveValue: { [weak self] movies in
-                self?.popularMovies = movies
-            })
-            .store(in: &cancellables)
-    }
-
-    func fetchTopRated() {
-        isLoading = true
-        networkingManager.getData(from: .topRated, type: [Movie].self)
-            .sink(receiveCompletion: { [weak self] completion in
-                self?.isLoading = false
-                if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
-                }
-            }, receiveValue: { [weak self] movies in
-                self?.topRatedMovies = movies
-            })
-            .store(in: &cancellables)
-    }
-
-    func fetchUpcoming() {
-        isLoading = true
-        networkingManager.getData(from: .upcoming, type: [Movie].self)
-            .sink(receiveCompletion: { [weak self] completion in
-                self?.isLoading = false
-                if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
-                }
-            }, receiveValue: { [weak self] movies in
-                self?.upcomingMovies = movies
-            })
-            .store(in: &cancellables)
-    }
-
     
-    func getGenres() {
+    func getNowPlaying() {
         isLoading = true
-        networkingManager.getData(from: .genres, type: [Genre].self)
-            .sink(receiveCompletion: { [weak self] completion in
-                self?.isLoading = false
-                if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
-                }
-            }, receiveValue: { [weak self] genres in
-                self?.movieGenres = genres
-            })
-            .store(in: &cancellables)
+        networkingManager.getData(from: .nowPlaying, showAlert: { [weak self] message in
+            self?.errorMessage = message
+        })
+        .sink(receiveCompletion: { [weak self] completion in
+            self?.isLoading = false
+            if case .failure(let error) = completion {
+                self?.errorMessage = error.localizedDescription
+            }
+        }, receiveValue: { [weak self] movieResponse in
+            self?.nowPlayingMovies = movieResponse.results
+        })
+        .store(in: &cancellables)
     }
 
-    func getTrendingPeople() {
+    func getPopular() {
         isLoading = true
-        networkingManager.getData(from: .trendingPeople, type: [Person].self)
-            .sink(receiveCompletion: { [weak self] completion in
-                self?.isLoading = false
-                if case .failure(let error) = completion {
-                    self?.errorMessage = error.localizedDescription
-                }
-            }, receiveValue: { [weak self] people in
-                self?.actorsAndActresses = people
-            })
-            .store(in: &cancellables)
+        networkingManager.getData(from: .popular, showAlert: { [weak self] message in
+            self?.errorMessage = message
+        })
+        .sink(receiveCompletion: { [weak self] completion in
+            self?.isLoading = false
+            if case .failure(let error) = completion {
+                self?.errorMessage = error.localizedDescription
+            }
+        }, receiveValue: { [weak self] movieResponse in
+            self?.popularMovies = movieResponse.results
+        })
+        .store(in: &cancellables)
     }
 
-}
+    func getTopRated() {
+        isLoading = true
+        networkingManager.getData(from: .topRated, showAlert: { [weak self] message in
+            self?.errorMessage = message
+        })
+        .sink(receiveCompletion: { [weak self] completion in
+            self?.isLoading = false
+            if case .failure(let error) = completion {
+                self?.errorMessage = error.localizedDescription
+            }
+        }, receiveValue: { [weak self] movieResponse in
+            self?.topRatedMovies = movieResponse.results
+            if let dates = movieResponse.dates {
+                print("Data mínima: \(dates.minimum), Data máxima: \(dates.maximum)")
+            }
+        })
+        .store(in: &cancellables)
+    }
+
+    func getUpcoming() {
+        isLoading = true
+        networkingManager.getData(from: .upcoming, showAlert: { [weak self] message in
+            self?.errorMessage = message
+        })
+        .sink(receiveCompletion: { [weak self] completion in
+            self?.isLoading = false
+            if case .failure(let error) = completion {
+                self?.errorMessage = error.localizedDescription
+            }
+        }, receiveValue: { [weak self] movieResponse in
+            self?.upcomingMovies = movieResponse.results
+        })
+        .store(in: &cancellables)
+    }}

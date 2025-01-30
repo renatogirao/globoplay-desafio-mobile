@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		600169512D4C16BF00625007 /* MovieDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600169502D4C16BF00625007 /* MovieDetailsView.swift */; };
+		600169572D4C36B200625007 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 600169562D4C36B200625007 /* KeychainSwift */; };
 		60159A702D4ADD9A005A8C2B /* BelongsToCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60159A6F2D4ADD9A005A8C2B /* BelongsToCollection.swift */; };
 		604AE9362D49745700B13B21 /* TabBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AE9352D49745700B13B21 /* TabBarManager.swift */; };
 		604AE93B2D49749500B13B21 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AE93A2D49749500B13B21 /* FavoritesView.swift */; };
@@ -107,6 +108,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				600169572D4C36B200625007 /* KeychainSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +406,7 @@
 			);
 			name = "globoplay-desafio-mobile";
 			packageProductDependencies = (
+				600169562D4C36B200625007 /* KeychainSwift */,
 			);
 			productName = "globoplay-desafio-mobile";
 			productReference = 60FEE9342D4959B100DC1418 /* globoplay-desafio-mobile.app */;
@@ -478,7 +481,7 @@
 			);
 			mainGroup = 60FEE92B2D4959B100DC1418;
 			packageReferences = (
-				600169522D4C350E00625007 /* XCRemoteSwiftPackageReference "keychain-swift" */,
+				600169552D4C36AE00625007 /* XCRemoteSwiftPackageReference "keychain-swift" */,
 			);
 			productRefGroup = 60FEE9352D4959B100DC1418 /* Products */;
 			projectDirPath = "";
@@ -880,7 +883,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		600169522D4C350E00625007 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
+		600169552D4C36AE00625007 /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/evgenyneu/keychain-swift.git";
 			requirement = {
@@ -889,6 +892,14 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		600169562D4C36B200625007 /* KeychainSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 600169552D4C36AE00625007 /* XCRemoteSwiftPackageReference "keychain-swift" */;
+			productName = KeychainSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		60FEE9422D4959B200DC1418 /* globoplay_desafio_mobile.xcdatamodeld */ = {

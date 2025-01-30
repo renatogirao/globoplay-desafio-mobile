@@ -12,6 +12,7 @@ Packages/
 *.moved-aside
 *.hmap
 
+.build/artifacts/swiftlint/SwiftLintBinary/
 
 build/
 DerivedData/

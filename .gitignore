@@ -9,6 +9,11 @@
 Packages/
 
 
+.build/
+*.xcodeproj/project.xcworkspace/
+*.xcuserdata/
+
+
 *.moved-aside
 *.hmap
 

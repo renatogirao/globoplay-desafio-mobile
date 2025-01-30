@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @ObservedObject var tabBarManager = TabBarManager()
+    @ObservedObject var tabBarManager: TabBarManager
+    
+    init(coordinator: AppCoordinator) {
+        _tabBarManager = ObservedObject(wrappedValue: TabBarManager(coordinator: coordinator))
+    }
 
     var body: some View {
         TabView {
@@ -20,12 +24,6 @@ struct MainTabView: View {
                     }
             }
         }
-        .accentColor(.textColor)
-    }
-}
-
-struct MainTabView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainTabView()
+        .accentColor(Color.textColor)
     }
 }

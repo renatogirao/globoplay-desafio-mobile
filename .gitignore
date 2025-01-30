@@ -21,3 +21,4 @@ Packages/
 
 build/
 DerivedData/
+.build/

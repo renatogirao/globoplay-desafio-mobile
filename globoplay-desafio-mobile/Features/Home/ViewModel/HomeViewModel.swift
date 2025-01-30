@@ -11,7 +11,9 @@ import Combine
 class HomeViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let networkingManager = NetworkingManager()
+    private let coordinator: AppCoordinator
     
+    @Published var selectedMovie: Movie?
     @Published var nowPlayingMovies: [Movie] = []
     @Published var popularMovies: [Movie] = []
     @Published var topRatedMovies: [Movie] = []
@@ -19,13 +21,17 @@ class HomeViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String? = nil
     
-    var sections: [Section] {
+    var sections: [MovieSection] {
         return [
-            Section(title: "Now Playing", items: nowPlayingMovies),
-            Section(title: "Popular", items: popularMovies),
-            Section(title: "Top Rated", items: topRatedMovies),
-            Section(title: "Upcoming", items: upcomingMovies)
+            MovieSection(title: "Now Playing", movies: nowPlayingMovies),
+            MovieSection(title: "Popular", movies: popularMovies),
+            MovieSection(title: "Top Rated", movies: topRatedMovies),
+            MovieSection(title: "Upcoming", movies: upcomingMovies)
         ]
+    }
+    
+    init(coordinator: AppCoordinator) {
+        self.coordinator = coordinator
     }
     
     func getNowPlaying() {
@@ -93,4 +99,10 @@ class HomeViewModel: ObservableObject {
             self?.upcomingMovies = movieResponse.results
         })
         .store(in: &cancellables)
-    }}
+    }
+    
+    func selectMovie(_ movie: Movie) {
+        print("Movie selected: \(movie.title)")
+        coordinator.showMovieDetails(movie: movie)
+    }
+}

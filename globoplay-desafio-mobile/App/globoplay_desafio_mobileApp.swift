@@ -9,10 +9,10 @@ import SwiftUI
 
 @main
 struct globoplay_desafio_mobileApp: App {
-    
+    @StateObject private var coordinator = AppCoordinator(window: UIWindow())
+
     let persistenceController = PersistenceController.shared
-    @StateObject private var homeViewModel = HomeViewModel()
-    
+
     init() {
         configureKeychain()
         UINavigationBar.appearance().backgroundColor = UIColor(Color.navigationBarBackground)
@@ -23,14 +23,14 @@ struct globoplay_desafio_mobileApp: App {
             .foregroundColor: UIColor(Color.textColor)
         ]
     }
-    
+
     var body: some Scene {
         WindowGroup {
-            HomeView(viewModel: homeViewModel)
+            MainTabView(coordinator: coordinator)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
-    
+
     private func configureKeychain() {
         let keychainManager = KeychainManager()
         keychainManager.saveAPIKey(apiKey: "d830c306bbead007f72d9ad843bc6985")

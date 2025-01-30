@@ -46,8 +46,8 @@ struct MovieCell: View {
     }
 }
 
-//struct MovieCell_Previews: PreviewProvider {
-//    static var previews: some View {
-//
-//    }
-//}
+struct MovieCell_Previews: PreviewProvider {
+    static var previews: some View {
+        MovieCell(movie: Movie(id: 123, title: "teste", posterPath: "teste", overview: "teste", backdropPath: "teste", genreIds: [1,2,3], voteCount: 9, adult: true, releaseDate: "teste", originalLanguage: "teste", originalTitle: "teste", popularity: 23.2, video: true, voteAverage: 4.3))
+    }
+}

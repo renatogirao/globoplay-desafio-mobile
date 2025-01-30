@@ -5,7 +5,7 @@
 //  Created by Renato Girão on 28/01/25.
 //
 
-struct Movie: Codable {
+struct Movie: Codable, Identifiable {
     
     let id: Int
     let title: String

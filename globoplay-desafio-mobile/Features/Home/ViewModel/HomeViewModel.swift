@@ -34,9 +34,9 @@ class HomeViewModel: ObservableObject {
         self.coordinator = coordinator
     }
     
-    func getNowPlaying() {
+    func fetchMovies(endpoint: APIEndpoint, assignTo moviesList: @escaping ([Movie]) -> Void) {
         isLoading = true
-        networkingManager.getData(from: .nowPlaying, showAlert: { [weak self] message in
+        networkingManager.getData(from: endpoint, showAlert: { [weak self] message in
             self?.errorMessage = message
         })
         .sink(receiveCompletion: { [weak self] completion in
@@ -44,65 +44,33 @@ class HomeViewModel: ObservableObject {
             if case .failure(let error) = completion {
                 self?.errorMessage = error.localizedDescription
             }
-        }, receiveValue: { [weak self] movieResponse in
-            self?.nowPlayingMovies = movieResponse.results
-        })
-        .store(in: &cancellables)
-    }
-
-    func getPopular() {
-        isLoading = true
-        networkingManager.getData(from: .popular, showAlert: { [weak self] message in
-            self?.errorMessage = message
-        })
-        .sink(receiveCompletion: { [weak self] completion in
-            self?.isLoading = false
-            if case .failure(let error) = completion {
-                self?.errorMessage = error.localizedDescription
-            }
-        }, receiveValue: { [weak self] movieResponse in
-            self?.popularMovies = movieResponse.results
-        })
-        .store(in: &cancellables)
-    }
-
-    func getTopRated() {
-        isLoading = true
-        networkingManager.getData(from: .topRated, showAlert: { [weak self] message in
-            self?.errorMessage = message
-        })
-        .sink(receiveCompletion: { [weak self] completion in
-            self?.isLoading = false
-            if case .failure(let error) = completion {
-                self?.errorMessage = error.localizedDescription
-            }
-        }, receiveValue: { [weak self] movieResponse in
-            self?.topRatedMovies = movieResponse.results
-            if let dates = movieResponse.dates {
-                print("Data mínima: \(dates.minimum), Data máxima: \(dates.maximum)")
-            }
-        })
-        .store(in: &cancellables)
-    }
-
-    func getUpcoming() {
-        isLoading = true
-        networkingManager.getData(from: .upcoming, showAlert: { [weak self] message in
-            self?.errorMessage = message
-        })
-        .sink(receiveCompletion: { [weak self] completion in
-            self?.isLoading = false
-            if case .failure(let error) = completion {
-                self?.errorMessage = error.localizedDescription
-            }
-        }, receiveValue: { [weak self] movieResponse in
-            self?.upcomingMovies = movieResponse.results
+        }, receiveValue: { moviesResponse in
+            moviesList(moviesResponse.results)
         })
         .store(in: &cancellables)
     }
     
-    func selectMovie(_ movie: Movie) {
-        print("Movie selected: \(movie.title)")
-        coordinator.showMovieDetails(movie: movie)
+    func getNowPlaying() {
+        fetchMovies(endpoint: .nowPlaying) { [weak self] movies in
+            self?.nowPlayingMovies = movies
+        }
+    }
+
+    func getPopular() {
+        fetchMovies(endpoint: .popular) { [weak self] movies in
+            self?.popularMovies = movies
+        }
+    }
+
+    func getTopRated() {
+        fetchMovies(endpoint: .topRated) { [weak self] movies in
+            self?.topRatedMovies = movies
+        }
+    }
+
+    func getUpcoming() {
+        fetchMovies(endpoint: .upcoming) { [weak self] movies in
+            self?.upcomingMovies = movies
+        }
     }
 }

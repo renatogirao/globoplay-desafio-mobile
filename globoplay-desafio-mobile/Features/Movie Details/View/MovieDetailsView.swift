@@ -13,6 +13,13 @@ struct MovieDetailsView: View {
     @State private var details: MovieDetails?
     @State private var isLoading = true
     @State private var cancellable: AnyCancellable?
+    
+    @StateObject private var viewModel: MovieDetailsViewModel
+    
+    init(movie: Movie) {
+          self.movie = movie
+          _viewModel = StateObject(wrappedValue: MovieDetailsViewModel(movie: movie))
+      }
 
     private func fetchMovieDetails() {
         cancellable = NetworkingManager.shared.getMovieDetails(movieId: movie.id)
@@ -71,12 +78,12 @@ struct MovieDetailsView: View {
                     
                     HStack {
                         Button(action: {
-                            // TODO - Adicionar lógica para favoritar o filme
+                            viewModel.toggleFavorite()
                         }) {
-                            Text("Favoritar")
-                                .font(.headline)
-                                .foregroundColor(.blue)
+                            Image(systemName: viewModel.isFavorite ? "heart.fill" : "heart")
+                                .foregroundColor(viewModel.isFavorite ? .red : .white)
                         }
+
                         
                         Spacer()
                         

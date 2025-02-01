@@ -17,6 +17,7 @@ enum APIEndpoint: String {
     case genres = "/genre/movie/list"
     case trendingPeople = "/trending/person/week"
     case relatedMovies = "/movie/{movieId}/similar"
+    case baseURL = "https://api.themoviedb.org/3"
         
         var urlString: String {
             return "https://api.themoviedb.org/3\(self.rawValue)"

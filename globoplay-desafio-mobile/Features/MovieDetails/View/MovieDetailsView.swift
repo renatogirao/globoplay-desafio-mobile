@@ -66,14 +66,16 @@ struct MovieDetailsView: View {
                                 image.resizable()
                                     .scaledToFit()
                                     .frame(height: 220)
-                                    .cornerRadius(16)
+                                    .cornerRadius(22)
                                     .shadow(radius: 8)
-                                    .padding(.horizontal, 16)
+                                    .padding(.horizontal, 12)
+                                    .padding(.top, 12)
                             } placeholder: {
                                 Color.gray.frame(height: 220)
                                     .cornerRadius(16)
                                     .shadow(radius: 8)
-                                    .padding(.horizontal, 16)
+                                    .padding(.horizontal, 12)
+                                    .padding(.top, 12)
                             }
                         }
                         
@@ -81,27 +83,29 @@ struct MovieDetailsView: View {
                             .font(.title2)
                             .fontWeight(.semibold)
                             .foregroundColor(.white)
-                            .padding(.horizontal, 16)
+                            .padding(.horizontal, 12)
                             .padding(.top, 16)
+                            .shadow(color: .black, radius: 5, x: 0, y: 2)
                         
                         Text("⭐ Rating: \(details?.voteAverage ?? 0, specifier: "%.1f") / 10")
                             .font(.headline)
                             .fontWeight(.semibold)
                             .foregroundColor(.white)
-                            .padding(.horizontal, 16)
+                            .padding(.horizontal, 12)
+                            .shadow(color: .black, radius: 5, x: 0, y: 2)
                         
                         Text(details?.overview ?? "Descrição não disponível.")
                             .font(.body)
                             .foregroundColor(.white)
-                            .padding(.horizontal, 16)
+                            .padding(.horizontal, 12)
+                            .shadow(color: .black, radius: 5, x: 0, y: 2)
                         
                         Text("Release Date: \(details?.releaseDate ?? "Data não disponível")")
                             .font(.body)
                             .foregroundColor(.white)
-                            .padding(.horizontal, 16)
-                        
+                            .padding(.horizontal, 12)
+                            .shadow(color: .black, radius: 5, x: 0, y: 2)
                         Spacer()
-                        
                         HStack(spacing: 12) {
                             Button(action: {
                                 viewModel.toggleFavorite()
@@ -135,11 +139,11 @@ struct MovieDetailsView: View {
                             .disabled(viewModel.movieTrailerURL == nil)
                             .opacity(viewModel.movieTrailerURL == nil ? 0.5 : 1.0)
                         }
-                        .padding(.horizontal, 16)
+                        .padding(.horizontal, 12)
                         .padding(.top, 16)
                     }
                 }
-                .padding(.bottom, 32)
+                .padding(.bottom, 100)
                 .padding(.top, 88)
             }
         }

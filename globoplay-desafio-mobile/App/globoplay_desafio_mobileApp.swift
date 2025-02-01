@@ -15,13 +15,6 @@ struct globoplay_desafio_mobileApp: App {
 
     init() {
         configureKeychain()
-        UINavigationBar.appearance().backgroundColor = UIColor(Color.navigationBarBackground)
-        UINavigationBar.appearance().largeTitleTextAttributes = [
-            .foregroundColor: UIColor(Color.textColor)
-        ]
-        UINavigationBar.appearance().titleTextAttributes = [
-            .foregroundColor: UIColor(Color.textColor)
-        ]
     }
 
     var body: some Scene {

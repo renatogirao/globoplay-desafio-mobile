@@ -34,17 +34,16 @@ class FavoritesViewController: UIViewController {
         print("\\n\nFavoritesViewController APARECEU\n\n")
         viewModel.fetchFavoriteMovies()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("FavoritesViewController viewWillAppear")
-    }
 
     // MARK: - Setup
     private func setupView() {
         favoritesView = FavoritesView(viewModel: viewModel)
         view.addSubview(favoritesView)
-        navigationItem.title = "Favoritos"
+        
+        if let navigationController = navigationController {
+            navigationController.navigationBar.prefersLargeTitles = true
+            navigationItem.title = "Favoritos"
+        }
         
         favoritesView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -54,6 +53,7 @@ class FavoritesViewController: UIViewController {
             favoritesView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+
 
 
     // MARK: - Binding

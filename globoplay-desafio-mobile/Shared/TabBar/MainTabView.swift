@@ -9,21 +9,27 @@ import SwiftUI
 
 struct MainTabView: View {
     @ObservedObject var tabBarManager: TabBarManager
+    @State private var selectedTab = 0
     
     init(coordinator: AppCoordinator) {
         _tabBarManager = ObservedObject(wrappedValue: TabBarManager(coordinator: coordinator))
     }
 
     var body: some View {
-        TabView {
-            ForEach(tabBarManager.tabs, id: \.title) { tab in
-                tab.view
+        TabView(selection: $selectedTab) {
+            ForEach(tabBarManager.tabs.indices, id: \.self) { index in
+                tabBarManager.tabs[index].view
                     .tabItem {
-                        Image(systemName: tab.icon)
-                        Text(tab.title)
+                        
+                        Image(systemName: selectedTab == index ? tabBarManager.tabs[index].icon + ".fill" : tabBarManager.tabs[index].icon)
+                        Text(tabBarManager.tabs[index].title)
                     }
+                    .tag(index)
             }
         }
         .accentColor(Color.textColor)
+        .onAppear {
+            UITabBar.appearance().backgroundColor = .black
+        }
     }
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SwiftUI
 
 class FavoriteMovieCell: UICollectionViewCell {
 
@@ -47,14 +48,13 @@ class FavoriteMovieCell: UICollectionViewCell {
     }
     
     private func setupView() {
-        self.backgroundColor = .blue
         contentView.addSubview(posterImageView)
 
         NSLayoutConstraint.activate([
-            posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            posterImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            posterImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 }

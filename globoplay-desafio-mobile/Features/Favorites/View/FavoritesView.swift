@@ -22,7 +22,6 @@ class FavoritesView: UIView {
         layout.minimumInteritemSpacing = 16
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .red
         return collectionView
     }()
     
@@ -51,21 +50,19 @@ class FavoritesView: UIView {
     private func setupView() {
         addSubview(collectionView)
         addSubview(loadingIndicator)
-
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(FavoriteMovieCell.self, forCellWithReuseIdentifier: FavoriteMovieCell.identifier)
-
+        
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
-
-            loadingIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
-            loadingIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
+            collectionView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
+
 
     // MARK: - Bind ViewModel
     private func bindViewModel() {

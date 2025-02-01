@@ -22,6 +22,29 @@ class TabBarManager: ObservableObject {
     init(coordinator: AppCoordinator) {
         self.coordinator = coordinator
         
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
+        navBarAppearance.backgroundColor = UIColor(Color.navigationBarBackground)
+        navBarAppearance.largeTitleTextAttributes = [
+            .foregroundColor: UIColor(Color.textColor)
+        ]
+        navBarAppearance.titleTextAttributes = [
+            .foregroundColor: UIColor(Color.textColor)
+        ]
+        
+        UINavigationBar.appearance().standardAppearance = navBarAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
+
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithOpaqueBackground()
+        tabBarAppearance.backgroundColor = UIColor(Color.tabBarBackground)
+        tabBarAppearance.stackedLayoutAppearance.normal.iconColor = UIColor.lightGray
+        tabBarAppearance.stackedLayoutAppearance.selected.iconColor = UIColor.white
+
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+        UITabBar.appearance().tintColor = .white
+        
         let homeViewModel = HomeViewModel(coordinator: coordinator)
         let homeView = AnyView(HomeView(viewModel: homeViewModel))
         

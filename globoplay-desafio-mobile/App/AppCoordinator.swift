@@ -12,21 +12,35 @@ import Combine
 class AppCoordinator: ObservableObject, Coordinator {
     var window: UIWindow
     var navigationController: UINavigationController
+    var tabBarController: UITabBarController
     private var cancellables = Set<AnyCancellable>()
 
     init(window: UIWindow) {
         self.window = window
         self.navigationController = UINavigationController()
+        self.tabBarController = UITabBarController()
         start()
     }
     
     func start() {
+        // Home
         let homeViewModel = HomeViewModel(coordinator: self)
         let homeView = HomeView(viewModel: homeViewModel)
         let homeViewController = UIHostingController(rootView: homeView)
         
-        navigationController.setViewControllers([homeViewController], animated: false)
-        window.rootViewController = navigationController
+        // Favorites
+        let favoritesCoordinator = FavoritesCoordinator(navigationController: navigationController) // Usando o navigationController principal
+        favoritesCoordinator.start()
+        
+        let homeTab = UINavigationController(rootViewController: homeViewController)
+        homeTab.tabBarItem = UITabBarItem(title: "Início", image: UIImage(systemName: "house"), tag: 0)
+        
+        let favoritesTab = navigationController // Usando o navigationController principal
+        favoritesTab.tabBarItem = UITabBarItem(title: "Favoritos", image: UIImage(systemName: "star"), tag: 1)
+        
+        tabBarController.viewControllers = [homeTab, favoritesTab]
+        
+        window.rootViewController = tabBarController
         window.makeKeyAndVisible()
     }
     

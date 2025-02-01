@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Foundation
+import UIKit
 
 struct TabItem<Content: View> {
     let title: String
@@ -20,20 +21,21 @@ class TabBarManager: ObservableObject {
     
     init(coordinator: AppCoordinator) {
         self.coordinator = coordinator
-        UITabBar.appearance().barTintColor = UIColor(Color.appBackground)
-        UITabBar.appearance().tintColor = UIColor(Color.textColor)
-        UITabBar.appearance().unselectedItemTintColor = UIColor.gray
         
         let homeViewModel = HomeViewModel(coordinator: coordinator)
+        let homeView = AnyView(HomeView(viewModel: homeViewModel))
         
         let favoritesViewModel = FavoritesViewModel()
+        favoritesViewModel.fetchFavoriteMovies()
+        
+        let favoritesViewController = FavoritesViewController()
+        favoritesViewController.viewModel = favoritesViewModel
+        
+        let favoritesView = AnyView(FavoritesViewControllerRepresentable(viewController: favoritesViewController))
+        
         tabs = [
-            TabItem(title: "Início", icon: "house", view: AnyView(HomeView(viewModel: homeViewModel))),
-            TabItem(title: "Favoritos", icon: "star", view: AnyView(FavoritesViewRepresentable(movies: favoritesViewModel.favoriteMovies)))
+            TabItem(title: "Início", icon: "house", view: homeView),
+            TabItem(title: "Favoritos", icon: "star", view: favoritesView),
         ]
-    }
-
-    func addTab(title: String, icon: String, view: AnyView) {
-        tabs.append(TabItem(title: title, icon: icon, view: view))
     }
 }

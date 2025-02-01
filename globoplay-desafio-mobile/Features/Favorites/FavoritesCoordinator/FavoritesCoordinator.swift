@@ -16,9 +16,10 @@ class FavoritesCoordinator: FavoritesCoordinatorDelegate {
     }
 
     func start() {
-        let favoritesVC = FavoritesViewController()
-        favoritesVC.coordinator = self 
-        navigationController.pushViewController(favoritesVC, animated: true)
+        let favoritesViewController = FavoritesViewController()
+        favoritesViewController.coordinator = self
+        favoritesViewController.viewModel = FavoritesViewModel()
+        navigationController.pushViewController(favoritesViewController, animated: true)
     }
 
     func showMovieDetails(movie: Movie) {
@@ -26,3 +27,5 @@ class FavoritesCoordinator: FavoritesCoordinatorDelegate {
         navigationController.pushViewController(detailsVC, animated: true)
     }
 }
+
+

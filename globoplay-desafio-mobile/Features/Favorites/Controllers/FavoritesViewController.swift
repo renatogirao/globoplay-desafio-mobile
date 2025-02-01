@@ -7,52 +7,63 @@
 
 import UIKit
 import Foundation
+import SwiftUI
 
 protocol FavoritesCoordinatorDelegate: AnyObject {
     func showMovieDetails(movie: Movie)
 }
 
-import SwiftUI
-
 class FavoritesViewController: UIViewController {
-
+    
     // MARK: - Properties
-    private var viewModel: FavoritesViewModel!
-    private var favoritesViewRepresentable: FavoritesViewRepresentable!
+    var viewModel: FavoritesViewModel!
+    private var favoritesView: FavoritesView!
     weak var coordinator: FavoritesCoordinator?
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        guard let viewModel = viewModel else {
+            print("ViewModel não está configurado!")
+            return
+        }
+        
         setupView()
         bindViewModel()
-        viewModel.fetchFavoriteMovies()
         print("\\n\nFavoritesViewController APARECEU\n\n")
+        viewModel.fetchFavoriteMovies()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-            super.viewWillAppear(animated)
-            print("FavoritesViewController viewWillAppear")
-        }
+        super.viewWillAppear(animated)
+        print("FavoritesViewController viewWillAppear")
+    }
 
     // MARK: - Setup
     private func setupView() {
-        favoritesViewRepresentable = FavoritesViewRepresentable(movies: [])
+        favoritesView = FavoritesView(viewModel: viewModel)
+        view.addSubview(favoritesView)
+        navigationItem.title = "Favoritos"
         
-        let hostingController = UIHostingController(rootView: favoritesViewRepresentable)
-        addChild(hostingController)
-        view.addSubview(hostingController.view)
-        hostingController.view.frame = view.bounds
-        hostingController.didMove(toParent: self)
+        favoritesView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            favoritesView.topAnchor.constraint(equalTo: view.topAnchor),
+            favoritesView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            favoritesView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            favoritesView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
+
 
     // MARK: - Binding
     private func bindViewModel() {
-        viewModel.onMoviesLoaded = { [weak self] in
-            self?.favoritesViewRepresentable.movies = self?.viewModel.favoriteMovies ?? []
-        }
-        viewModel.onError = { [weak self] error in
-            // TODO - fazer handle do errro
-        }
-    }
+           viewModel.onMoviesLoaded = { [weak self] in
+               self?.favoritesView.updateMovies(self?.viewModel.favoriteMovies ?? [])
+           }
+           
+           viewModel.onError = { [weak self] error in
+               // fazer handle de erro! Alerta?
+           }
+       }
 }

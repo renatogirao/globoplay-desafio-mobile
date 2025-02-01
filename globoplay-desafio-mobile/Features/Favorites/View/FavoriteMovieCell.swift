@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class FavoriteMovieCell: UICollectionViewCell {
 
@@ -20,6 +21,8 @@ class FavoriteMovieCell: UICollectionViewCell {
         return imageView
     }()
 
+    private var viewModel: FavoriteMovieCellViewModel!
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -29,22 +32,29 @@ class FavoriteMovieCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func configure(with movie: Movie) {
+        viewModel = FavoriteMovieCellViewModel(movie: movie)
+        
+        viewModel.$imageData
+            .sink { [weak self] data in
+                if let data = data {
+                    self?.posterImageView.image = UIImage(data: data)
+                } else {
+                    self?.posterImageView.image = UIImage(named: "placeholderImage")
+                }
+            }
+            .store(in: &viewModel.cancellables)
+    }
+    
     private func setupView() {
+        self.backgroundColor = .blue
         contentView.addSubview(posterImageView)
 
         NSLayoutConstraint.activate([
-            posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            posterImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            posterImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
-    }
-
-    func configure(with movie: Movie) {
-        if let posterPath = movie.posterPath, let posterURL = URL(string: posterPath) {
-            posterImageView.loadImage(from: posterURL)
-        } else {
-            posterImageView.image = UIImage(named: "placeholderImage")
-        }
     }
 }

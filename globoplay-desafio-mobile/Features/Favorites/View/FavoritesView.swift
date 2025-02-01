@@ -22,7 +22,7 @@ class FavoritesView: UIView {
         layout.minimumInteritemSpacing = 16
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .clear
+        collectionView.backgroundColor = .red
         return collectionView
     }()
     
@@ -40,6 +40,7 @@ class FavoritesView: UIView {
         super.init(frame: .zero)
         setupView()
         bindViewModel()
+        print("ABRIU A FAVORITESVIEW")
     }
 
     required init?(coder: NSCoder) {

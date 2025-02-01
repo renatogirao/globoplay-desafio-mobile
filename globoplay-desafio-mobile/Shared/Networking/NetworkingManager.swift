@@ -81,7 +81,6 @@ class NetworkingManager {
                 }
             }
         }, receiveValue: { movieResponse in
-            print("Dados recebidos: \(movieResponse)\n\n")
         })
         .store(in: &cancellables)
         
@@ -173,6 +172,29 @@ class NetworkingManager {
                     print("Erro de decodificação dos vídeos: \(error.localizedDescription)\n")
                     throw NetworkError.decodingError(error)
                 }
+            }
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
+    }
+    
+    func loadJustBanner(from imagePath: String) -> AnyPublisher<Data, Error> {
+        let imageURLString = "https://image.tmdb.org/t/p/w500\(imagePath)"
+        
+        guard let imageURL = URL(string: imageURLString) else {
+            return Fail(error: NetworkError.badURL).eraseToAnyPublisher()
+        }
+        
+        return URLSession.shared.dataTaskPublisher(for: imageURL)
+            .tryMap { data, response -> Data in
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    throw NetworkError.badServerResponse(statusCode: -1)
+                }
+                
+                guard httpResponse.statusCode == 200 else {
+                    throw NetworkError.badServerResponse(statusCode: httpResponse.statusCode)
+                }
+                
+                return data
             }
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()

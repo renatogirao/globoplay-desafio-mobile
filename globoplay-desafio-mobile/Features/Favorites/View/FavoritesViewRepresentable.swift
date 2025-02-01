@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct FavoritesViewRepresentable: UIViewRepresentable {
-    var movies: [Movie] 
-
+    var movies: [Movie]
+    
     func makeUIView(context: Context) -> FavoritesView {
-        let favoritesView = FavoritesView()
+        let viewModel = FavoritesViewModel()
+        viewModel.fetchFavoriteMovies()
+        let favoritesView = FavoritesView(viewModel: viewModel)
         return favoritesView
     }
 
@@ -19,3 +21,5 @@ struct FavoritesViewRepresentable: UIViewRepresentable {
         uiView.updateMovies(movies)
     }
 }
+
+

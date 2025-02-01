@@ -9,6 +9,11 @@ import UIKit
 import SwiftUI
 import Combine
 
+protocol Coordinator {
+    var navigationController: UINavigationController { get set }
+    func start()
+}
+
 class AppCoordinator: ObservableObject {
     var window: UIWindow
     var tabBarController: UITabBarController?

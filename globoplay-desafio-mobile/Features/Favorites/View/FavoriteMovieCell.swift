@@ -8,51 +8,43 @@
 import UIKit
 
 class FavoriteMovieCell: UICollectionViewCell {
-    
-    static let reuseIdentifier = "FavoriteMovieCell"
-    
-    private var posterImageView: UIImageView!
-    private var titleLabel: UILabel!
-    
+
+    static let identifier = "FavoriteMovieCell"
+
+    private let posterImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 8
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        setupUI()
+        setupView()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func setupUI() {
-        posterImageView = UIImageView()
-        posterImageView.translatesAutoresizingMaskIntoConstraints = false
-        posterImageView.contentMode = .scaleAspectFill
-        posterImageView.clipsToBounds = true
+
+    private func setupView() {
         contentView.addSubview(posterImageView)
-        
-        titleLabel = UILabel()
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        titleLabel.textColor = .white
-        contentView.addSubview(titleLabel)
-        
+
         NSLayoutConstraint.activate([
             posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             posterImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            posterImageView.heightAnchor.constraint(equalToConstant: 200),
-            
-            titleLabel.topAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            posterImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
-    
+
     func configure(with movie: Movie) {
-        titleLabel.text = movie.title
-        if let posterPath = movie.posterPath, let url = URL(string: "https://image.tmdb.org/t/p/w500\(posterPath)") {
-            posterImageView.loadImage(from: url)
+        if let posterPath = movie.posterPath, let posterURL = URL(string: posterPath) {
+            posterImageView.loadImage(from: posterURL)
+        } else {
+            posterImageView.image = UIImage(named: "placeholderImage")
         }
     }
 }

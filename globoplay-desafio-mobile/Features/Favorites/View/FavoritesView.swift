@@ -6,76 +6,122 @@
 //
 
 import UIKit
-import CoreData
+import Combine
 
-class FavoritesView: UIViewController {
+class FavoritesView: UIView {
+
+    // MARK: - Properties
+    var didSelectMovie: ((Movie) -> Void)?
+    private var viewModel: FavoritesViewModel
+    private var cancellables = Set<AnyCancellable>()
     
-    private var viewModel: FavoritesViewModel!
-    private var collectionView: UICollectionView!
-    private var activityIndicator: UIActivityIndicatorView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setupUI()
-        viewModel = FavoritesViewModel()
-        fetchFavoriteMovies()
-    }
-    
-    private func setupUI() {
-        view.backgroundColor = .black
-        
-        activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.center = view.center
-        activityIndicator.hidesWhenStopped = true
-        view.addSubview(activityIndicator)
-        
+    private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: (view.bounds.width - 40) / 2, height: 250)
+        layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 16
         layout.minimumInteritemSpacing = 16
-        
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
+        return collectionView
+    }()
+    
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
+    private var movies: [Movie] = []
+
+    // MARK: - Init
+    init(viewModel: FavoritesViewModel) {
+        self.viewModel = viewModel
+        super.init(frame: .zero)
+        setupView()
+        bindViewModel()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Setup UI
+    private func setupView() {
+        addSubview(collectionView)
+        addSubview(loadingIndicator)
+
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(FavoriteMovieCell.self, forCellWithReuseIdentifier: FavoriteMovieCell.reuseIdentifier)
-        
-        view.addSubview(collectionView)
-        
+        collectionView.register(FavoriteMovieCell.self, forCellWithReuseIdentifier: FavoriteMovieCell.identifier)
+
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.topAnchor.constraint(equalTo: topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+
+            loadingIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
-    
-    private func fetchFavoriteMovies() {
-        activityIndicator.startAnimating()
-        viewModel.fetchFavoriteMovies { [weak self] in
-            self?.activityIndicator.stopAnimating()
-            self?.collectionView.reloadData()
+
+    // MARK: - Bind ViewModel
+    private func bindViewModel() {
+        viewModel.$favoriteMovies
+            .sink { [weak self] movies in
+                self?.updateMovies(movies)
+            }
+            .store(in: &cancellables)
+
+        viewModel.onMoviesLoaded = { [weak self] in
+            self?.stopLoading()
         }
+
+        viewModel.onError = { error in
+            // Handle error
+            print("Error loading movies: \(error)")
+        }
+    }
+
+    // MARK: - Public Methods
+    func updateMovies(_ movies: [Movie]) {
+        self.movies = movies
+        collectionView.reloadData()
+        print("Número de filmes: \(movies.count)")
+    }
+
+    func startLoading() {
+        loadingIndicator.startAnimating()
+    }
+
+    func stopLoading() {
+        loadingIndicator.stopAnimating()
     }
 }
 
-extension FavoritesView: UICollectionViewDelegate, UICollectionViewDataSource {
+// MARK: - UICollectionView Delegate & DataSource
+extension FavoritesView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.favoriteMovies.count
+        return movies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteMovieCell.reuseIdentifier, for: indexPath) as! FavoriteMovieCell
-        let movie = viewModel.favoriteMovies[indexPath.item]
-        cell.configure(with: movie)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoriteMovieCell.identifier, for: indexPath) as? FavoriteMovieCell else {
+            return UICollectionViewCell()
+        }
+        cell.configure(with: movies[indexPath.row])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movie = viewModel.favoriteMovies[indexPath.item]
-        let detailsViewController = FavoritesMovieDetailsView(movie: movie)
-        navigationController?.pushViewController(detailsViewController, animated: true)
+        didSelectMovie?(movies[indexPath.row])
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (collectionView.frame.width - 48) / 3
+        let height = width * 1.5
+        return CGSize(width: width, height: height)
     }
 }

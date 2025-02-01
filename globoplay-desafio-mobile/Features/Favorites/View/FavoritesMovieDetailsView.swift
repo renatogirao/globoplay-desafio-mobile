@@ -7,83 +7,76 @@
 
 import UIKit
 
-class FavoritesMovieDetailsView: UIViewController {
+class FavoritesMovieDetailsView: UIView {
     
-    private var movie: Movie
-    private var details: MovieDetails?
-    private var isLoading = true
-    private var activityIndicator: UIActivityIndicatorView!
-    
+    // MARK: - UI Elements
     private var titleLabel: UILabel!
     private var backdropImageView: UIImageView!
     private var ratingLabel: UILabel!
     private var overviewLabel: UILabel!
     private var releaseDateLabel: UILabel!
+    private var activityIndicator: UIActivityIndicatorView!
     
-    init(movie: Movie) {
-        self.movie = movie
-        super.init(nibName: nil, bundle: nil)
+    // MARK: - Initializer
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+        super.init(coder: coder)
         setupUI()
-        fetchMovieDetails()
     }
     
+    // MARK: - Setup UI
     private func setupUI() {
-        view.backgroundColor = .black
+        backgroundColor = .black
         
         activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.center = view.center
+        activityIndicator.center = center
         activityIndicator.hidesWhenStopped = true
-        view.addSubview(activityIndicator)
+        addSubview(activityIndicator)
         
         backdropImageView = UIImageView()
         backdropImageView.translatesAutoresizingMaskIntoConstraints = false
         backdropImageView.contentMode = .scaleAspectFill
         backdropImageView.clipsToBounds = true
-        view.addSubview(backdropImageView)
+        addSubview(backdropImageView)
         
         titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.boldSystemFont(ofSize: 24)
         titleLabel.textColor = .white
-        view.addSubview(titleLabel)
+        addSubview(titleLabel)
         
         ratingLabel = UILabel()
         ratingLabel.translatesAutoresizingMaskIntoConstraints = false
         ratingLabel.font = UIFont.systemFont(ofSize: 18)
         ratingLabel.textColor = .white
-        view.addSubview(ratingLabel)
+        addSubview(ratingLabel)
         
         overviewLabel = UILabel()
         overviewLabel.translatesAutoresizingMaskIntoConstraints = false
         overviewLabel.font = UIFont.systemFont(ofSize: 16)
         overviewLabel.textColor = .white
         overviewLabel.numberOfLines = 0
-        view.addSubview(overviewLabel)
+        addSubview(overviewLabel)
         
         releaseDateLabel = UILabel()
         releaseDateLabel.translatesAutoresizingMaskIntoConstraints = false
         releaseDateLabel.font = UIFont.systemFont(ofSize: 16)
         releaseDateLabel.textColor = .white
-        view.addSubview(releaseDateLabel)
+        addSubview(releaseDateLabel)
         
         NSLayoutConstraint.activate([
-            backdropImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            backdropImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backdropImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backdropImageView.topAnchor.constraint(equalTo: topAnchor),
+            backdropImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backdropImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             backdropImageView.heightAnchor.constraint(equalToConstant: 250),
             
             titleLabel.topAnchor.constraint(equalTo: backdropImageView.bottomAnchor, constant: 16),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
             ratingLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             ratingLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
@@ -99,32 +92,24 @@ class FavoritesMovieDetailsView: UIViewController {
         ])
     }
     
-    private func fetchMovieDetails() {
-        activityIndicator.startAnimating()
-        
-        NetworkingManager.shared.getMovieDetails(movieId: movie.id) { [weak self] result in
-            self?.activityIndicator.stopAnimating()
-            
-            switch result {
-            case .success(let movieDetails):
-                self?.details = movieDetails
-                self?.updateUI()
-            case .failure(let error):
-                print("Erro ao obter detalhes: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    private func updateUI() {
-        guard let details = details else { return }
-        
+    // MARK: - Update UI
+    func updateUI(with details: MovieDetails) {
         titleLabel.text = details.title
-        ratingLabel.text = "⭐ Rating: \(details.voteAverage ?? 0, specifier: "%.1f") / 10"
+        ratingLabel.text = "⭐ Rating: \(String(format: "%.1f", details.voteAverage)) / 10"
         overviewLabel.text = details.overview
-        releaseDateLabel.text = "Release Date: \(details.releaseDate ?? "N/A")"
+        releaseDateLabel.text = "Release Date: \(details.releaseDate)"
         
         if let backdropPath = details.backdropPath, let url = URL(string: "https://image.tmdb.org/t/p/original\(backdropPath)") {
             backdropImageView.loadImage(from: url)
         }
+    }
+    
+    // MARK: - Loading Indicator
+    func startLoading() {
+        activityIndicator.startAnimating()
+    }
+    
+    func stopLoading() {
+        activityIndicator.stopAnimating()
     }
 }

@@ -63,7 +63,7 @@ class MovieDetailsViewModel: ObservableObject {
                 let existingMovies = try context.fetch(fetchRequest)
                 if existingMovies.isEmpty {
                     let favorite = FavoriteMovie(context: context)
-                    favorite.id = String(movie.id)
+                    favorite.id = Int64(movie.id)
                     favorite.title = movie.title
                     favorite.posterPath = movie.posterPath
                     favorite.releaseDate = movie.releaseDate

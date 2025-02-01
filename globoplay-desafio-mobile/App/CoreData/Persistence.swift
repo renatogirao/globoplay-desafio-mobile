@@ -13,7 +13,7 @@ struct PersistenceController {
     let container: NSPersistentContainer
 
     private init() {
-        container = NSPersistentContainer(name: "globoplay_desafio_mobile")
+        container = NSPersistentContainer(name: "MovieDataModel")
         container.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Erro ao carregar Core Data: \(error), \(error.userInfo)")

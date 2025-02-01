@@ -25,9 +25,11 @@ class TabBarManager: ObservableObject {
         UITabBar.appearance().unselectedItemTintColor = UIColor.gray
         
         let homeViewModel = HomeViewModel(coordinator: coordinator)
+        
+        let favoritesViewModel = FavoritesViewModel()
         tabs = [
             TabItem(title: "Início", icon: "house", view: AnyView(HomeView(viewModel: homeViewModel))),
-            TabItem(title: "Favoritos", icon: "star", view: AnyView(FavoritesView()))
+            TabItem(title: "Favoritos", icon: "star", view: AnyView(FavoritesViewRepresentable(movies: favoritesViewModel.favoriteMovies)))
         ]
     }
 
@@ -35,5 +37,3 @@ class TabBarManager: ObservableObject {
         tabs.append(TabItem(title: title, icon: icon, view: view))
     }
 }
-
-

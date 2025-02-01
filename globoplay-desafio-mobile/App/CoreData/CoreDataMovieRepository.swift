@@ -9,8 +9,12 @@ import Foundation
 import CoreData
 
 class MovieCoreDataRepository {
+    
+    // MARK: - Properties
     private let context = CoreDataManager.shared.context
-
+    
+    // MARK: - Methods
+    
     func saveFavorite(movie: Movie) {
         let favorite = FavoriteMovie(context: context)
         favorite.id = Int64(movie.id)
@@ -20,15 +24,15 @@ class MovieCoreDataRepository {
         
         CoreDataManager.shared.saveContext()
     }
-
-    func getFavorites() -> [Movie] {
-        let fetchRequest: NSFetchRequest<MovieEntity> = MovieEntity.fetchRequest()
+    
+    func getFavorites(completion: @escaping (Result<[Movie], Error>) -> Void) {
+        let fetchRequest: NSFetchRequest<FavoriteMovie> = FavoriteMovie.fetchRequest()
         
         do {
             let results = try context.fetch(fetchRequest)
-            return results.map { entity in
+            let movies = results.map { entity in
                 Movie(
-                    id: Int(entity.id),
+                    id: Int(bitPattern: entity.id),
                     title: entity.title ?? "",
                     posterPath: entity.posterPath,
                     overview: entity.overview,
@@ -44,12 +48,14 @@ class MovieCoreDataRepository {
                     voteAverage: entity.voteAverage
                 )
             }
+            completion(.success(movies))
+            print("CoreData getFavorites: \(results.count) movies found")
         } catch {
-            print("Erro ao pegar os favoritos do CoreData: \(error.localizedDescription)")
-            return []
+            print("Erro atualizando os favoritos dop CoreData: \(error.localizedDescription)")
+            completion(.failure(error))
         }
     }
-
+    
     func removeFavorite(movieId: Int) {
         let fetchRequest: NSFetchRequest<FavoriteMovie> = FavoriteMovie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %d", movieId)
@@ -64,7 +70,7 @@ class MovieCoreDataRepository {
             print("Erro ao remover favorito: \(error.localizedDescription)")
         }
     }
-
+    
     func isFavorite(movieId: Int) -> Bool {
         let fetchRequest: NSFetchRequest<FavoriteMovie> = FavoriteMovie.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %d", movieId)

@@ -7,6 +7,7 @@
 
 import Combine
 import UIKit
+import AVKit
 import CoreData
 
 class MovieDetailsViewModel: ObservableObject {
@@ -15,7 +16,7 @@ class MovieDetailsViewModel: ObservableObject {
     
     private let networkingManager = NetworkingManager()
     private let movieRepository = MovieCoreDataRepository()
-        
+    
     private var context: NSManagedObjectContext
     
     @Published var isFavorite: Bool = false
@@ -24,11 +25,13 @@ class MovieDetailsViewModel: ObservableObject {
     @Published var relatedMovies: [Movie] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
+    @Published var movieTrailerURL: URL?
     
     init(movie: Movie) {
         self.movie = movie
         self.isFavorite = movieRepository.isFavorite(movieId: movie.id)
         self.context = CoreDataManager.shared.context
+        fetchMovieVideos()
     }
     
     func fetchMovieDetails(movieId: Int) {
@@ -38,7 +41,6 @@ class MovieDetailsViewModel: ObservableObject {
                 self?.isLoading = false
                 if case .failure(let error) = completion {
                     self?.errorMessage = error.localizedDescription
-                    print("Erro na fetchMovieDetails na ViewModel: \(error.localizedDescription)\n\n")
                 }
             }, receiveValue: { [weak self] movieDetails in
                 self?.movieDetails = movieDetails
@@ -46,6 +48,20 @@ class MovieDetailsViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
+    func fetchMovieVideos() {
+        networkingManager.getMovieVideos(movieId: movie.id)
+            .sink(receiveCompletion: { completion in
+                if case .failure(let error) = completion {
+                    print("Erro ao buscar vídeos: \(error.localizedDescription)")
+                }
+            }, receiveValue: { [weak self] response in
+                if let trailer = response.results.first(where: { $0.site == "YouTube" }) {
+                    self?.movieTrailerURL = URL(string: "https://www.youtube.com/watch?v=\(trailer.key)")
+                }
+            })
+            .store(in: &cancellables)
+    }
+    
     func toggleFavorite() {
         if isFavorite {
              movieRepository.removeFavorite(movieId: movie.id)
@@ -54,45 +70,51 @@ class MovieDetailsViewModel: ObservableObject {
          }
          isFavorite.toggle()
     }
-    
-    func addFavorite(movie: Movie) {
-            let fetchRequest: NSFetchRequest<FavoriteMovie> = FavoriteMovie.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "id == %@", String(movie.id))
 
-            do {
-                let existingMovies = try context.fetch(fetchRequest)
-                if existingMovies.isEmpty {
-                    let favorite = FavoriteMovie(context: context)
-                    favorite.id = Int64(movie.id)
-                    favorite.title = movie.title
-                    favorite.posterPath = movie.posterPath
-                    favorite.releaseDate = movie.releaseDate
-                    if let voteAverage = movie.voteAverage {
-                        favorite.voteAverage = voteAverage
-                    } else {
-                        print("Avaliação do filme não disponível.")
-                    }
-
-                    saveContext()
-                    self.isFavorite = true
-                } else {
-                    print("Este filme já foi adicionado aos favoritos.")
-                    self.isFavorite = true
-                }
-            } catch {
-                print("Erro ao adicionar favorito: \(error.localizedDescription)")
-            }
-        }
-
-        private func saveContext() {
-            do {
-                try context.save()
-            } catch {
-                print("Erro ao salvar contexto: \(error.localizedDescription)")
-            }
-        }
-    
     func watchMovie() {
-        // implementar a fuctionalidade para assistir o filme
+        guard let trailerURL = movieTrailerURL else {
+            print("Erro: URL do trailer não encontrada.")
+            return
+        }
+        print("URL do trailer: \(trailerURL)")
+        DispatchQueue.main.async {
+            if !trailerURL.isValidURL {
+                print("Erro: URL do trailer inválida.")
+                return
+            }
+            
+            let player = AVPlayer(url: trailerURL)
+            let playerViewController = AVPlayerViewController()
+            playerViewController.player = player
+
+            if let player = playerViewController.player {
+                print("Player criado com sucesso.")
+            } else {
+                print("Erro: Falha ao criar o player.")
+            }
+
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                print("WindowScene encontrada: \(windowScene)")
+                
+                if let window = windowScene.windows.first {
+                    print("Janela encontrada: \(window)")
+                    
+                    if let rootViewController = window.rootViewController {
+                        print("RootViewController encontrado: \(rootViewController)")
+                        
+                        rootViewController.present(playerViewController, animated: true) {
+                            print("Iniciando o trailer...")
+                            player.play()
+                        }
+                    } else {
+                        print("Erro: RootViewController não encontrada")
+                    }
+                } else {
+                    print("Erro: Janela não encontrad")
+                }
+            } else {
+                print("Erro: WindowScene não encontrada")
+            }
+        }
     }
 }

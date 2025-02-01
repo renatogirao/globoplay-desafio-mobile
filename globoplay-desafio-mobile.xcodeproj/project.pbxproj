@@ -21,6 +21,8 @@
 		600169752D4D691300625007 /* FavoritesViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600169742D4D690900625007 /* FavoritesViewRepresentable.swift */; };
 		6001697A2D4D6D3E00625007 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 600169792D4D6D3E00625007 /* KeychainSwift */; };
 		6001697D2D4D86AF00625007 /* FavoritesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6001697C2D4D86AB00625007 /* FavoritesCoordinator.swift */; };
+		6001697F2D4DD41500625007 /* MovieVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6001697E2D4DD41100625007 /* MovieVideo.swift */; };
+		600169812D4DDB2500625007 /* URL+IsValid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600169802D4DDB1E00625007 /* URL+IsValid.swift */; };
 		60159A702D4ADD9A005A8C2B /* BelongsToCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60159A6F2D4ADD9A005A8C2B /* BelongsToCollection.swift */; };
 		604AE9362D49745700B13B21 /* TabBarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AE9352D49745700B13B21 /* TabBarManager.swift */; };
 		604AE93B2D49749500B13B21 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AE93A2D49749500B13B21 /* FavoritesView.swift */; };
@@ -87,6 +89,8 @@
 		6001696F2D4D629800625007 /* FavoritesMovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesMovieDetailsViewController.swift; sourceTree = "<group>"; };
 		600169742D4D690900625007 /* FavoritesViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewRepresentable.swift; sourceTree = "<group>"; };
 		6001697C2D4D86AB00625007 /* FavoritesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesCoordinator.swift; sourceTree = "<group>"; };
+		6001697E2D4DD41100625007 /* MovieVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieVideo.swift; sourceTree = "<group>"; };
+		600169802D4DDB1E00625007 /* URL+IsValid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+IsValid.swift"; sourceTree = "<group>"; };
 		60159A6F2D4ADD9A005A8C2B /* BelongsToCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BelongsToCollection.swift; sourceTree = "<group>"; };
 		604AE9352D49745700B13B21 /* TabBarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarManager.swift; sourceTree = "<group>"; };
 		604AE93A2D49749500B13B21 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
@@ -225,6 +229,7 @@
 		604AE94F2D497CDD00B13B21 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6001697E2D4DD41100625007 /* MovieVideo.swift */,
 				604AE9502D497CE900B13B21 /* MovieDetails.swift */,
 			);
 			path = Model;
@@ -370,6 +375,7 @@
 		60FEE96B2D495BD200DC1418 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				600169802D4DDB1E00625007 /* URL+IsValid.swift */,
 				600169662D4D596F00625007 /* UIImageView+Utils.swift */,
 				604AE96C2D49FFBE00B13B21 /* UIColor+Utils.swift */,
 				604AE96E2D49FFC800B13B21 /* UIColor+hex.swift */,
@@ -610,6 +616,7 @@
 				604AE9432D49765500B13B21 /* MovieSection.swift in Sources */,
 				604AE9712D4A010500B13B21 /* UIColor+rgb.swift in Sources */,
 				604AE93D2D4974ED00B13B21 /* MainTabView.swift in Sources */,
+				6001697F2D4DD41500625007 /* MovieVideo.swift in Sources */,
 				60FEE9382D4959B100DC1418 /* globoplay_desafio_mobileApp.swift in Sources */,
 				604AE93F2D49757300B13B21 /* HomeViewModel.swift in Sources */,
 				600169512D4C16BF00625007 /* MovieDetailsView.swift in Sources */,
@@ -622,6 +629,7 @@
 				604AE9362D49745700B13B21 /* TabBarManager.swift in Sources */,
 				60C7E26D2D4AC0C100C30200 /* SpokenLanguage.swift in Sources */,
 				6001695F2D4D4CEF00625007 /* MovieDataModel.xcdatamodeld in Sources */,
+				600169812D4DDB2500625007 /* URL+IsValid.swift in Sources */,
 				60FEE97F2D496DFF00DC1418 /* KeychainManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

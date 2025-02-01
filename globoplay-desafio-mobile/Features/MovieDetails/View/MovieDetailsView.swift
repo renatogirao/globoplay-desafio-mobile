@@ -121,7 +121,7 @@ struct MovieDetailsView: View {
                             }
                             
                             Button(action: {
-                                // TODO - Adicionar lógica para assistir o filme
+                                viewModel.watchMovie()
                             }) {
                                 Text("Assistir")
                                     .font(.headline)
@@ -132,6 +132,8 @@ struct MovieDetailsView: View {
                                     .background(Color.white)
                                     .cornerRadius(12)
                             }
+                            .disabled(viewModel.movieTrailerURL == nil)
+                            .opacity(viewModel.movieTrailerURL == nil ? 0.5 : 1.0)
                         }
                         .padding(.horizontal, 16)
                         .padding(.top, 16)

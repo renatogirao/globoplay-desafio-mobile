@@ -133,4 +133,48 @@ class NetworkingManager {
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
+    
+    func getMovieVideos(movieId: Int) -> AnyPublisher<MovieVideosResponse, Error> {
+        print("Iniciando requisição para vídeos do filme!!!! \(movieId)\n\n")
+        guard let apiKey = keychain.get("api_key") else {
+            let errorMessage = NetworkError.unknownError.localizedDescription
+            print("Erro: \(errorMessage)\n")
+            return Fail(error: NetworkError.unknownError).eraseToAnyPublisher()
+        }
+        
+        guard let url = URL(string: "https://api.themoviedb.org/3/movie/\(movieId)/videos?api_key=\(apiKey)") else {
+            let errorMessage = NetworkError.badURL.localizedDescription
+            print("Erro: \(errorMessage)\n")
+            return Fail(error: NetworkError.badURL).eraseToAnyPublisher()
+        }
+        
+        print("URL final chamada para o vídeo: \(url.absoluteString)\n")
+        
+        let urlRequest = URLRequest(url: url)
+        
+        return URLSession.shared.dataTaskPublisher(for: urlRequest)
+            .tryMap { data, response -> MovieVideosResponse in
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    print("Erro: Resposta do servidor inválida\n")
+                    throw NetworkError.badServerResponse(statusCode: -1)
+                }
+                
+                print("Status Code: \(httpResponse.statusCode)")
+                guard httpResponse.statusCode == 200 else {
+                    print("Erro: Resposta do servidor com status code \(httpResponse.statusCode)\n")
+                    throw NetworkError.badServerResponse(statusCode: httpResponse.statusCode)
+                }
+                
+                do {
+                    let decoder = JSONDecoder()
+                    let videosResponse = try decoder.decode(MovieVideosResponse.self, from: data)
+                    return videosResponse
+                } catch {
+                    print("Erro de decodificação dos vídeos: \(error.localizedDescription)\n")
+                    throw NetworkError.decodingError(error)
+                }
+            }
+            .receive(on: DispatchQueue.main)
+            .eraseToAnyPublisher()
+    }
 }

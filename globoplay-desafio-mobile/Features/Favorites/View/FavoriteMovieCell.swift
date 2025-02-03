@@ -10,9 +10,9 @@ import Combine
 import SwiftUI
 
 class FavoriteMovieCell: UICollectionViewCell {
-
+    
     static let identifier = "FavoriteMovieCell"
-
+    
     private let posterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -21,18 +21,18 @@ class FavoriteMovieCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-
+    
     private var viewModel: FavoriteMovieCellViewModel!
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     func configure(with movie: Movie) {
         viewModel = FavoriteMovieCellViewModel(movie: movie)
         
@@ -49,7 +49,7 @@ class FavoriteMovieCell: UICollectionViewCell {
     
     private func setupView() {
         contentView.addSubview(posterImageView)
-
+        
         NSLayoutConstraint.activate([
             posterImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             posterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),

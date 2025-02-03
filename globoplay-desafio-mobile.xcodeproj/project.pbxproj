@@ -218,13 +218,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		604AE9392D49748900B13B21 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		604AE94D2D497CD000B13B21 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -425,7 +418,6 @@
 				600169882D4EC5C900625007 /* FavoritesDetails */,
 				6001697B2D4D86A200625007 /* FavoritesCoordinator */,
 				600169682D4D5C6000625007 /* Controllers */,
-				604AE9392D49748900B13B21 /* Model */,
 				604AE9382D49748400B13B21 /* View */,
 				604AE9372D49747E00B13B21 /* ViewModel */,
 			);

@@ -6,63 +6,47 @@
 //
 
 import UIKit
+import Combine
 
 class FavoritesMovieDetailsViewController: UIViewController {
     
-    // MARK: - Properties
-    private let viewModel: FavoritesMovieDetailsViewModel
-    private var customView: FavoritesMovieDetailsView!
-    
-    // MARK: - Initializer
-    init(movie: Movie) {
-        self.viewModel = FavoritesMovieDetailsViewModel(movie: movie)
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: - View Lifecycle
-    override func loadView() {
-        customView = FavoritesMovieDetailsView()
-        view = customView
-    }
+    var movie: Movie!
+    private var movieDetailsView: FavoritesMovieDetailsView!
+    private var movieDetails: MovieDetails?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupBindings()
-        viewModel.fetchMovieDetails()
+        setupView()
+        fetchMovieDetails()
     }
     
-    // MARK: - Setup Bindings
-    private func setupBindings() {
-        viewModel.loadingPublisher
-            .sink { [weak self] isLoading in
-                if isLoading {
-                    self?.customView.startLoading()
-                } else {
-                    self?.customView.stopLoading()
-                }
-            }
-            .store(in: &viewModel.cancellables)
+    private func setupView() {
+        movieDetailsView = FavoritesMovieDetailsView()
+        view.addSubview(movieDetailsView)
         
-        viewModel.movieDetailsPublisher
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .failure(let error):
-                    print("Erro ao carregar detalhes: \(error)")
-                case .finished:
-                    break
-                }
-            }, receiveValue: { [weak self] details in
-                if let details = details {
-                    self?.customView.updateUI(with: details)
-                } else {
-                    print("Detalhes do filme não encontrados.")
-                }
-            })
-            .store(in: &viewModel.cancellables)
+        movieDetailsView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            movieDetailsView.topAnchor.constraint(equalTo: view.topAnchor),
+            movieDetailsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            movieDetailsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            movieDetailsView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    private func fetchMovieDetails() {
+        movieDetailsView.startLoading()
+        
+//        let details = MovieDetails(
+//            title: movie.title,
+//            voteAverage: movie.voteAverage,
+//            overview: movie.overview,
+//            releaseDate: movie.releaseDate,
+//            backdropPath: movie.backdropPath
+//        )
+        
+//        movieDetails = details
+//        movieDetailsView.updateUI(with: details)
+//        movieDetailsView.stopLoading()
     }
 }

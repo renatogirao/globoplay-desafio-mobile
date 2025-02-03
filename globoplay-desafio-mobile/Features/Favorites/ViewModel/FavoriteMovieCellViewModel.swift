@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 class FavoriteMovieCellViewModel {
-
+    
     @Published var imageData: Data?
     var cancellables = Set<AnyCancellable>()
     private let movie: Movie
@@ -31,6 +31,7 @@ class FavoriteMovieCellViewModel {
                     break
                 case .failure(let error):
                     print("Erro ao carregar imagem: \(error.localizedDescription)")
+                    print("Erro ao carregar imagem: \(error)")
                 }
             }, receiveValue: { [weak self] data in
                 self?.imageData = data

@@ -9,8 +9,7 @@ import UIKit
 import Combine
 
 class FavoritesView: UIView {
-
-    // MARK: - Properties
+    
     var didSelectMovie: ((Movie) -> Void)?
     private var viewModel: FavoritesViewModel
     private var cancellables = Set<AnyCancellable>()
@@ -32,21 +31,18 @@ class FavoritesView: UIView {
     }()
     
     private var movies: [Movie] = []
-
-    // MARK: - Init
+    
     init(viewModel: FavoritesViewModel) {
         self.viewModel = viewModel
         super.init(frame: .zero)
         setupView()
         bindViewModel()
-        print("ABRIU A FAVORITESVIEW")
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    // MARK: - Setup UI
+    
     private func setupView() {
         addSubview(collectionView)
         addSubview(loadingIndicator)
@@ -62,43 +58,37 @@ class FavoritesView: UIView {
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
-
-
-    // MARK: - Bind ViewModel
+    
     private func bindViewModel() {
         viewModel.$favoriteMovies
             .sink { [weak self] movies in
                 self?.updateMovies(movies)
             }
             .store(in: &cancellables)
-
+        
         viewModel.onMoviesLoaded = { [weak self] in
             self?.stopLoading()
         }
-
+        
         viewModel.onError = { error in
-            // Handle error
             print("Error loading movies: \(error)")
         }
     }
-
-    // MARK: - Public Methods
+    
     func updateMovies(_ movies: [Movie]) {
         self.movies = movies
         collectionView.reloadData()
-        print("Número de filmes: \(movies.count)")
     }
-
+    
     func startLoading() {
         loadingIndicator.startAnimating()
     }
-
+    
     func stopLoading() {
         loadingIndicator.stopAnimating()
     }
 }
 
-// MARK: - UICollectionView Delegate & DataSource
 extension FavoritesView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

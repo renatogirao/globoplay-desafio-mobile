@@ -7,25 +7,24 @@
 
 import UIKit
 
-class FavoritesCoordinator: FavoritesCoordinatorDelegate {
+class FavoritesCoordinator {
     
-    private let navigationController: UINavigationController
-
+    private var navigationController: UINavigationController
+    private var favoritesViewController: FavoritesViewController
+    
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        self.favoritesViewController = FavoritesViewController()
     }
-
+    
     func start() {
-        let favoritesViewController = FavoritesViewController()
         favoritesViewController.coordinator = self
-        favoritesViewController.viewModel = FavoritesViewModel()
         navigationController.pushViewController(favoritesViewController, animated: true)
     }
-
-    func showMovieDetails(movie: Movie) {
-        let detailsVC = FavoritesMovieDetailsViewController(movie: movie)
-        navigationController.pushViewController(detailsVC, animated: true)
+    
+    func showFavoritesDetails(for movie: Movie) {
+        let detailsViewController = FavoritesMovieDetailsViewController()
+        detailsViewController.movie = movie
+        navigationController.pushViewController(detailsViewController, animated: true)
     }
 }
-
-

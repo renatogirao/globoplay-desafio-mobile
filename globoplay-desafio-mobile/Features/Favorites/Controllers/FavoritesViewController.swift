@@ -8,19 +8,16 @@
 import UIKit
 import Foundation
 import SwiftUI
-
-protocol FavoritesCoordinatorDelegate: AnyObject {
-    func showMovieDetails(movie: Movie)
-}
+import Combine
 
 class FavoritesViewController: UIViewController {
     
-    // MARK: - Properties
     var viewModel: FavoritesViewModel!
     private var favoritesView: FavoritesView!
     weak var coordinator: FavoritesCoordinator?
-
-    // MARK: - Life Cycle
+    
+    private var cancellables = Set<AnyCancellable>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,11 +28,9 @@ class FavoritesViewController: UIViewController {
         
         setupView()
         bindViewModel()
-        print("\\n\nFavoritesViewController APARECEU\n\n")
         viewModel.fetchFavoriteMovies()
     }
-
-    // MARK: - Setup
+    
     private func setupView() {
         favoritesView = FavoritesView(viewModel: viewModel)
         view.addSubview(favoritesView)
@@ -53,17 +48,24 @@ class FavoritesViewController: UIViewController {
             favoritesView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-
-
-
-    // MARK: - Binding
+    
     private func bindViewModel() {
-           viewModel.onMoviesLoaded = { [weak self] in
-               self?.favoritesView.updateMovies(self?.viewModel.favoriteMovies ?? [])
-           }
-           
-           viewModel.onError = { [weak self] error in
-               // fazer handle de erro! Alerta?
-           }
-       }
+        viewModel.$favoriteMovies
+            .sink { [weak self] movies in
+                self?.favoritesView.updateMovies(movies)
+            }
+            .store(in: &cancellables)
+        
+        viewModel.onMoviesLoaded = { [weak self] in
+            self?.favoritesView.stopLoading()
+        }
+        
+        viewModel.onError = { error in
+            print("Error loading movies: \(error)")
+        }
+        
+        favoritesView.didSelectMovie = { [weak self] movie in
+            self?.coordinator?.showFavoritesDetails(for: movie)
+        }
+    }
 }
